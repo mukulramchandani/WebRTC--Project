@@ -8,15 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Web-RTC</title>
-  <!-- peerjs -->
   <script src="peer.js" charset="utf-8"></script>
-  <!-- jQuery 2.2.3 -->
-  <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-  <!-- Bootstrap 3.3.6 -->
-  <script src="bootstrap/js/bootstrap.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="dist/js/app.min.js"></script>
-
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -42,37 +34,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-  <div class="" id="chatbox" style="color:green;">
+<div class="" id="chatbox" style="color:green;">
 
-  </div>
+</div>
+<div class="" id="sentmsg" style="color:blue;">
 
-  <div class="" id="sentmsg" style="color:blue;">
+</div>
 
-  </div>
 
-  <input id="msgg" type="text" >
+  <input id="msgg" type="text" name="" value="">
   <button type="button" name="button" onclick="onsend()">Send!</button>
 <!-- REQUIRED JS SCRIPTS -->
-<script>
-var chatbox = document.getElementById("chatbox");
-  var local = new Peer('localID', {key: 'u5vebnwoow0442t9'});
-  local.on('connection', function(conn) {
-    console.log("LOCAL connection open", conn)
-    conn.on('data', function(data){
-        chatbox.innerHTML += data + "<br>" ;
-      console.log("LOCAL got message", data);
-    });
-  });
-</script>
+
 
 <script>
-//This as a server
-//  var remote = new Peer('remoteID', {key: 'u5vebnwoow0442t9', debug:true});
+var remote = new Peer('remoteID', {key: 'u5vebnwoow0442t9'}); //, debug:true
+
 function onsend() {
-  var sentmsg = document.getElementById("sentmsg")
-var msg = document.getElementById("msgg").value ;
-console.log(msg);
-  var conn = local.connect('remoteID');
+  var sentmsg = document.getElementById("sentmsg");
+  var msg = document.getElementById("msgg").value ;
+  var conn = remote.connect('localID');
   console.log("REMOTE connecting to LOCAL", conn)
 
   conn.on('open', function(){
@@ -83,6 +64,27 @@ console.log(msg);
 }
 </script>
 
+<script>
+//This as a client
+  //var local = new Peer('localID', {key: 'u5vebnwoow0442t9'})
+
+var chatbox = document.getElementById("chatbox");
+  remote.on('connection', function(conn) {
+    console.log("LOCAL connection open", conn)
+    conn.on('data', function(data){
+      chatbox.innerHTML += data + "<br>" ;
+      console.log("LOCAL got message", data);
+    });
+  });
+
+</script>
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/app.min.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
