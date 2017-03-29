@@ -73,7 +73,7 @@ function onsend() {
 var msg = document.getElementById("msgg").value ;
 console.log(msg);
   var conn = local.connect('remoteID');
-  console.log("REMOTE connecting to LOCAL", conn)
+//  console.log("REMOTE connecting to LOCAL", conn);
 
   conn.on('open', function(){
     console.log("connect to REMOTE opened", conn);
