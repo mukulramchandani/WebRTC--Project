@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebRTC - Chat App</title>
+    <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+<style media="screen">
+.mbox{
+  padding: 10px;
+  margin: 0px auto;
+  width: 300px;
+  height: 500px;
+  border: blue;
+}
+.btn{
+  background-color: yellow;
+  font-size: 20px;
+  font-style: normal;
+  border-radius: 7px;
+  margin: 5px 0px 0px 230px;
+  border: 20;
+  border-color: green;
+}
+input{
+  width: 100%;
+  height : 25px;
+}
+</style>
+  </head>
+  <body>
+<script type="text/javascript">
+  var peer1 = new Peer('id1' , {key:'u5vebnwoow0442t9'});
+
+  peer1.on('open', function(id) {
+  console.log('My peer ID is: ' + id);
+});
+function sendm() {
+var conn = peer1.connect('id2');
+var message = document.getElementById('msg').value;
+var appendMsg = document.getElementById('p1');
+appendMsg.innerHTML +=  '<b>You :</b>' + message + '<br>';
+conn.on('open', function(){
+
+  conn.send(message);
+  console.log('sent successfully');
+});
+}
+
+peer1.on('connection', function(conn) {
+  console.log('id2 is  connecting',conn);
+
+
+  conn.on('data', function(data) {
+  console.log('Received', data);
+           var appendMsg = document.getElementById('p1');
+           appendMsg.innerHTML +=  '<b>Other Peer : </b> ' + data + '<br>';
+  });
+  });
+
+
+</script>
+
+<div class="mbox">
+  <center>  <h3><br>WebRTC</h3><h1><b>Chat Box </b> </h1></center>
+  <p id="p1"></p>
+  <hr>
+  <form class=""  method="post">
+    <input id="msg" type="text" name="" value="" placeholder="Type here to Chat!">
+    <br>
+    <button class="btn" type="reset" name="button" onclick="sendm()"> Send!</button>
+  </form>
+</div>
+  </body>
+</html>
